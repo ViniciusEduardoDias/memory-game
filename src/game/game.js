@@ -103,6 +103,26 @@ let game = {
       ];
     }
   },
+
+  flipCard: function (cardId, gameOverCallback, noMatchCallback) {
+    if (this.setCard(cardId)) {
+      if (this.secondCard) {
+        if (this.checkMatch()) {
+          this.clearCards();
+          if (this.checkGameOver()) {
+            //GameOver
+            gameOverCallback();
+          }
+        } else {
+          setTimeout(() => {
+            //No Match
+            this.unflipCards();
+            noMatchCallback();
+          }, 1000);
+        }
+      }
+    }
+  },
 };
 
 export default game;

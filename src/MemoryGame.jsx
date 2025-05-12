@@ -18,25 +18,18 @@ function MemoryGame() {
   }
 
   function handleFlip(card) {
-    if (game.setCard(card.id)) {
-      this.classList.add("flip");
-      if (game.secondCard) {
-        if (game.checkMatch()) {
-          game.clearCards();
-          if (game.checkGameOver()) {
-            //GameOver
-            setGameOver(true);
-          }
-        } else {
-          setTimeout(() => {
-            //No Match
-            game.unflipCards();
-            setCards([...game, cards]);
-          }, 1000);
-        }
+    game.flipCard(
+      card.id,
+      () => {
+        //gameOverCallback
+        setGameOver(true);
+      },
+      () => {
+        //noMatchCallback
+        setCards([...game.cards]);
       }
-    }
-    setCards([...game, cards]);
+    );
+    setCards([...game.cards]);
   }
 
   return (
